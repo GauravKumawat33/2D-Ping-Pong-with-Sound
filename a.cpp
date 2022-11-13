@@ -290,14 +290,19 @@ void ball::reflection() {
 
 
 void ball::draw() {
-	glVertex2f(x + settings.BallSize, y + settings.BallSize);
-	glVertex2f(x + settings.BallSize, y - settings.BallSize);
-	glVertex2f(x - settings.BallSize, y - settings.BallSize);
-	glVertex2f(x - settings.BallSize, y + settings.BallSize);
+	glColor3f(0.0f, 0.0f, 0.0f);
+	glVertex2f(x, y);
+	int numSegements = 100;
+	GLfloat angle;
+	for (int i = 0; i <= numSegements; i++) {
+		angle = i * 2.0f * PI / numSegements;
+		glVertex2f(x + cos(angle)*settings.BallSize, y + sin(angle)*settings.BallSize);
+	}
 
 }
 
 void ball::move() {
+
 	x += vx;
 	y += vy;
 }
@@ -351,13 +356,19 @@ void keyboardUp(unsigned char key, int x, int y)
 		break;
 	}
 }
+int flag = false;
 
 void Timer(int value)
 {
+
 	settings.win();
 	settings.KeyControl();
 	leftP.move();
 	rightP.move();
+	if (!flag) {
+		usleep(6000000);
+		flag = true;
+	}
 	ball.move();
 	ball.reflection();
 	leftP.care();
@@ -373,9 +384,13 @@ void draw()
 	glBegin(GL_QUADS);
 	rightP.draw();
 	leftP.draw();
-	ball.draw();
 	settings.DrawField();
 	glEnd();
+
+	glBegin(GL_TRIANGLE_FAN);
+	ball.draw();
+	glEnd();
+
 	settings.DrawScore();
 	glutSwapBuffers();
 }
@@ -383,7 +398,7 @@ void draw()
 int main(int argc, char**argv)
 {
 	pid_t pid = fork();
-	if (pid == 0) {
+	if (	pid == 0) {
 
 		system("canberra-gtk-play -f valorant.wav");
 
@@ -406,8 +421,8 @@ int main(int argc, char**argv)
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		gluOrtho2D(-settings.OrthoWid, settings.OrthoWid, -settings.OrthoHei, settings.OrthoHei);
+		kill(pid, SIGKILL);
 		glutMainLoop();
-		kill(pid, SIGHUP);
 	}
 	return 0;
 }
