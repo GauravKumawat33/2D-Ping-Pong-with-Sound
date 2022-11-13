@@ -7,7 +7,7 @@
 #include <sys/types.h>
 #include <signal.h>
 #include <cstdlib>
-
+#define PI 3.14159265f
 
 float r = 0.0;
 float g = 1.0;
@@ -294,6 +294,7 @@ void ball::draw() {
 	glVertex2f(x + settings.BallSize, y - settings.BallSize);
 	glVertex2f(x - settings.BallSize, y - settings.BallSize);
 	glVertex2f(x - settings.BallSize, y + settings.BallSize);
+
 }
 
 void ball::move() {
@@ -396,7 +397,7 @@ int main(int argc, char**argv)
 		glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
 		glutInitWindowSize(settings.WinWid, settings.WinHei);
 		glutInitWindowPosition(settings.WinXPos, settings.WinYPos);
-		glutCreateWindow("**PONG*");
+		glutCreateWindow("********* GSS' OPENGL PING PONG *********");
 		glutDisplayFunc(draw);
 		glutTimerFunc(settings.delay, Timer, 0);
 		glutKeyboardFunc(keyboard);
@@ -406,7 +407,7 @@ int main(int argc, char**argv)
 		glLoadIdentity();
 		gluOrtho2D(-settings.OrthoWid, settings.OrthoWid, -settings.OrthoHei, settings.OrthoHei);
 		glutMainLoop();
-		cout << kill(pid, SIGHUP);
+		kill(pid, SIGHUP);
 	}
 	return 0;
 }
