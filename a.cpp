@@ -8,9 +8,6 @@
 #include <signal.h>
 #include <cstdlib>
 
-void exiting() {
-	std::cout << "Exiting";
-}
 
 float r = 0.0;
 float g = 1.0;
@@ -134,7 +131,7 @@ void game::start_settings() {
 }
 
 void game::win() {
-	if ((ScoreL == 2) || (ScoreR == 2)) {
+	if ((ScoreL == 4) || (ScoreR == 4)) {
 		pid_t pid = fork();
 		if (pid == 0) {
 			system("canberra-gtk-play -f winsound.wav");
@@ -219,7 +216,7 @@ void game::DrawScore() {
 	glRasterPos2f(TextPosX + 30, TextPosY + 60);
 	glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, 'B');
 
-	if (ScoreL == 2) {
+	if (ScoreL == 4) {
 		glRasterPos2f(TextPosX - 250, TextPosY + 40);
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, 'W');
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, 'I');
@@ -229,7 +226,7 @@ void game::DrawScore() {
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, 'R');
 	}
 
-	if (ScoreR == 2) {
+	if (ScoreR == 4) {
 		glRasterPos2f(TextPosX + 150, TextPosY + 40);
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, 'W');
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, 'I');
